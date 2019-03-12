@@ -20,7 +20,6 @@
 //
 
 require_once 'Date.php';
-require_once 'PHPUnit/Autoload.php';
 
 class myDate extends Date {
     function myDate($date)
