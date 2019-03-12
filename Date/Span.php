@@ -42,19 +42,7 @@
  */
 
 // }}}
-// {{{ Includes
-
-/**
- * Get the Date class
- */
-require_once 'Date.php';
-
-/**
- * Get the Date_Calc class
- */
-require_once 'Date/Calc.php';
-
-// }}}
+namespace Pear\Date;
 // {{{ Constants
 
 /**
@@ -117,7 +105,6 @@ $GLOBALS['_DATE_SPAN_INPUT_FORMAT'] = DATE_SPAN_INPUT_FORMAT_NNSV;
  * @link      http://pear.php.net/package/Date
  * @since     Class available since Release 1.4
  */
-namespace Pear\Date;
 
 class Span
 {
