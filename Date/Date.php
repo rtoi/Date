@@ -486,7 +486,7 @@ class Date
      * @access   public
      * @see      Date::setDate()
      */
-    function Date($date = null, $options = null)
+    function __construct($date = null, $options = null)
     {
 		$default = array(
 		    "pb_countleapseconds" => DATE_COUNT_LEAP_SECONDS,

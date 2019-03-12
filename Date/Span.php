@@ -163,7 +163,7 @@ class Span
      * @access   public
      * @see      set()
      */
-    function Date_Span($time = 0, $format = null)
+    function __construct($time = 0, $format = null)
     {
         $this->set($time, $format);
     }
