@@ -431,7 +431,7 @@ class Date_TimeZone
      * @return   void
      * @access   public
      */
-    function setDefault($id)
+    static function setDefault($id)
     {
         if (Date_TimeZone::isValidID($id)) {
             $GLOBALS['_DATE_TIMEZONE_DEFAULT'] = $id;
@@ -495,7 +495,7 @@ class Date_TimeZone
      * @access   public
      * @see      Date::setTZByID(), Date_TimeZone::Date_TimeZone()
      */
-    function isValidID($ps_id)
+    static function isValidID($ps_id)
     {
         if (isset($GLOBALS['_DATE_TIMEZONE_DATA'][$ps_id])) {
             return true;
