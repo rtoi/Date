@@ -79,7 +79,7 @@ require_once 'Date/Calc.php';
  *  - <b>"3 days, 12-30-18"</b>   -> 3, 12, 30, 18
  *  - <b>"12:30 with 18 secs"</b> -> 0, 12, 30, 18
  *
- * @see      Date_Span::setFromString()
+ * @see      Span::setFromString()
  */
 define('DATE_SPAN_INPUT_FORMAT_NNSV', 1);
 
@@ -117,7 +117,9 @@ $GLOBALS['_DATE_SPAN_INPUT_FORMAT'] = DATE_SPAN_INPUT_FORMAT_NNSV;
  * @link      http://pear.php.net/package/Date
  * @since     Class available since Release 1.4
  */
-class Date_Span
+namespace Pear\Date;
+
+class Span
 {
 
     // {{{ Properties
@@ -195,7 +197,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::copy(), Date_Span::setFromArray(),
+     * @see      Span::copy(), Span::setFromArray(),
      *            Date_Span::setFromString(), Date_Span::setFromSeconds(),
      *            Date_Span::setFromDateDiff()
      */
@@ -237,18 +239,18 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set()
+     * @see      Span::set()
      */
     function setFromArray($time)
     {
         if (!is_array($time)) {
             return false;
         }
-        $tmp1 = new Date_Span;
+        $tmp1 = new Span;
         if (!$tmp1->setFromSeconds(@array_pop($time))) {
             return false;
         }
-        $tmp2 = new Date_Span;
+        $tmp2 = new Span;
         if (!$tmp2->setFromMinutes(@array_pop($time))) {
             return false;
         }
@@ -326,7 +328,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set(), DATE_SPAN_INPUT_FORMAT_NNSV
+     * @see      Span::set(), DATE_SPAN_INPUT_FORMAT_NNSV
      */
     function setFromString($time, $format = null)
     {
@@ -500,7 +502,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set(), Date_Span::setFromDays(),
+     * @see      Span::set(), Span::setFromDays(),
      *            Date_Span::setFromHours(), Date_Span::setFromMinutes()
      */
     function setFromSeconds($seconds)
@@ -531,7 +533,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set(), Date_Span::setFromDays(),
+     * @see      Span::set(), Span::setFromDays(),
      *            Date_Span::setFromHours(), Date_Span::setFromSeconds()
      */
     function setFromMinutes($minutes)
@@ -550,7 +552,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set(), Date_Span::setFromDays(),
+     * @see      Span::set(), Span::setFromDays(),
      *            Date_Span::setFromHours(), Date_Span::setFromMinutes()
      */
     function setFromHours($hours)
@@ -569,7 +571,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set(), Date_Span::setFromHours(),
+     * @see      Span::set(), Span::setFromHours(),
      *            Date_Span::setFromMinutes(), Date_Span::setFromSeconds()
      */
     function setFromDays($days)
@@ -591,7 +593,7 @@ class Date_Span
      *
      * @return   bool       true on success
      * @access   public
-     * @see      Date_Span::set()
+     * @see      Span::set()
      */
     function setFromDateDiff($date1, $date2)
     {
@@ -613,7 +615,7 @@ class Date_Span
             list($tdate1, $tdate2) = array($tdate2, $tdate1);
         }
 
-        $days = Date_Calc::dateDiff($tdate1->getDay(),
+        $days = Calc::dateDiff($tdate1->getDay(),
                                     $tdate1->getMonth(),
                                     $tdate1->getYear(),
                                     $tdate2->getDay(),
@@ -827,7 +829,7 @@ class Date_Span
      *
      * @return   int        time span as an integer number of seconds
      * @access   public
-     * @see      Date_Span::toDays(), Date_Span::toHours(),
+     * @see      Span::toDays(), Span::toHours(),
      *            Date_Span::toMinutes()
      */
     function toSeconds()
@@ -845,7 +847,7 @@ class Date_Span
      *
      * @return   float      time span as a decimal number of minutes
      * @access   public
-     * @see      Date_Span::toDays(), Date_Span::toHours(),
+     * @see      Span::toDays(), Span::toHours(),
      *            Date_Span::toSeconds()
      */
     function toMinutes()
@@ -863,7 +865,7 @@ class Date_Span
      *
      * @return   float      time span as a decimal number of hours
      * @access   public
-     * @see      Date_Span::toDays(), Date_Span::toMinutes(),
+     * @see      Span::toDays(), Span::toMinutes(),
      *            Date_Span::toSeconds()
      */
     function toHours()
@@ -881,7 +883,7 @@ class Date_Span
      *
      * @return   float      time span as a decimal number of days
      * @access   public
-     * @see      Date_Span::toHours(), Date_Span::toMinutes(),
+     * @see      Span::toHours(), Span::toMinutes(),
      *            Date_Span::toSeconds()
      */
     function toDays()
@@ -901,7 +903,7 @@ class Date_Span
      *
      * @return   void
      * @access   public
-     * @see      Date_Span::subtract()
+     * @see      Span::subtract()
      */
     function add($time)
     {
@@ -923,7 +925,7 @@ class Date_Span
      *
      * @return   void
      * @access   public
-     * @see      Date_Span::add()
+     * @see      Span::add()
      */
     function subtract($time)
     {
@@ -946,7 +948,7 @@ class Date_Span
      *
      * @return   bool       true if the time spans are equal
      * @access   public
-     * @see      Date_Span::greater(), Date_Span::greaterEqual()
+     * @see      Span::greater(), Span::greaterEqual()
      *            Date_Span::lower(), Date_Span::lowerEqual()
      */
     function equal($time)
@@ -965,7 +967,7 @@ class Date_Span
      *
      * @return   bool       true if this time span is greater or equal than $time
      * @access   public
-     * @see      Date_Span::greater(), Date_Span::lower(),
+     * @see      Span::greater(), Span::lower(),
      *            Date_Span::lowerEqual(), Date_Span::equal()
      */
     function greaterEqual($time)
@@ -984,7 +986,7 @@ class Date_Span
      *
      * @return   bool       true if this time span is lower or equal than $time
      * @access   public
-     * @see      Date_Span::lower(), Date_Span::greater(),
+     * @see      Span::lower(), Span::greater(),
      *            Date_Span::greaterEqual(), Date_Span::equal()
      */
     function lowerEqual($time)
@@ -1003,7 +1005,7 @@ class Date_Span
      *
      * @return   bool       true if this time span is greater than $time
      * @access   public
-     * @see      Date_Span::greaterEqual(), Date_Span::lower(),
+     * @see      Span::greaterEqual(), Span::lower(),
      *            Date_Span::lowerEqual(), Date_Span::equal()
      */
     function greater($time)
@@ -1022,7 +1024,7 @@ class Date_Span
      *
      * @return   bool       true if this time span is lower than $time
      * @access   public
-     * @see      Date_Span::lowerEqual(), Date_Span::greater(),
+     * @see      Span::lowerEqual(), Span::greater(),
      *            Date_Span::greaterEqual(), Date_Span::equal()
      */
     function lower($time)
@@ -1085,7 +1087,7 @@ class Date_Span
      * @return   mixed      previous default input format
      * @access   public
      * @static
-     * @see      Date_Span::getDefaultInputFormat(), Date_Span::setDefaultFormat()
+     * @see      Span::getDefaultInputFormat(), Span::setDefaultFormat()
      */
     function setDefaultInputFormat($format)
     {
@@ -1104,7 +1106,7 @@ class Date_Span
      * @return   mixed      default input format
      * @access   public
      * @static
-     * @see      Date_Span::setDefaultInputFormat(), Date_Span::getDefaultFormat()
+     * @see      Span::setDefaultInputFormat(), Span::getDefaultFormat()
      */
     function getDefaultInputFormat()
     {
@@ -1123,7 +1125,7 @@ class Date_Span
      * @return   mixed      previous default format
      * @access   public
      * @static
-     * @see      Date_Span::getDefaultFormat(), Date_Span::setDefaultInputFormat()
+     * @see      Span::getDefaultFormat(), Span::setDefaultInputFormat()
      */
     function setDefaultFormat($format)
     {
@@ -1142,7 +1144,7 @@ class Date_Span
      * @return   mixed      default format
      * @access   public
      * @static
-     * @see      Date_Span::setDefaultFormat(), Date_Span::getDefaultInputFormat()
+     * @see      Span::setDefaultFormat(), Span::getDefaultInputFormat()
      */
     function getDefaultFormat()
     {

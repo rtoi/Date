@@ -18,9 +18,9 @@
 //
 // $Id$
 //
+namespace Pear\Date\Test;
 
-require_once 'Date.php';
-require_once 'Date/Span.php';
+use PHPUnit_Framework_TestCase;
 
 /**
  * Test case for Date_Span

@@ -37,8 +37,13 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Date": "./"
+        "psr-4": {
+            "Pear\\Date\\": "Date/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pear\\Date\\Test\\": "tests/"
         }
     },
     "description": "More info available on: http://pear.php.net/package/Date",

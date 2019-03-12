@@ -18,8 +18,10 @@
 //
 // $Id$
 //
+namespace Pear\Date\Test;
 
-require_once 'Date.php';
+use Pear\Date\Date;
+use PHPUnit_Framework_TestCase;
 
 class myDate extends Date {
     function myDate($date)

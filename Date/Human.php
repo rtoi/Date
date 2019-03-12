@@ -47,6 +47,7 @@
  * @link       http://pear.php.net/package/Date
  * @since      File available since Release 1.3
  */
+namespace Pear\Date;
 
 // }}}
 // {{{ Class: Date_Human
@@ -72,7 +73,7 @@
  * @link      http://pear.php.net/package/Date
  * @since     Class available since Release 1.3
  */
-class Date_Human
+class Human
 {
     // {{{ gregorianToHuman()
 

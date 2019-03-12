@@ -46,6 +46,7 @@
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Date
  */
+namespace Pear\Date;
 
 
 // }}}
@@ -551,7 +552,7 @@ class Date
         $this->ob_countleapseconds = $date->ob_countleapseconds;
         $this->ob_invalidtime      = $date->ob_invalidtime;
 
-        $this->tz = new Date_TimeZone($date->getTZID());
+        $this->tz = new TimeZone($date->getTZID());
 
         $this->getWeekdayAbbrnameLength = $date->getWeekdayAbbrnameLength;
     }
@@ -577,7 +578,7 @@ class Date
         //
         // $this->tz = clone $this->tz;
 
-        $this->tz = new Date_TimeZone($this->getTZID());
+        $this->tz = new TimeZone($this->getTZID());
     }
 
 
@@ -637,7 +638,7 @@ class Date
     {
         return
             !Date::isNull() &&
-            Date_Calc::isValidDate($this->year, $this->month, $this->day);
+            Calc::isValidDate($this->year, $this->month, $this->day);
     }
 
 
@@ -764,7 +765,7 @@ class Date
                 // ISO week date (YYYY-Www-D)
                 //
 
-                $hs_date = Date_Calc::isoWeekToDate($regs[6],
+                $hs_date = Calc::isoWeekToDate($regs[6],
                                                     $regs[5],
                                                     $regs[1],
                                                     "%Y %m %d");
@@ -778,9 +779,9 @@ class Date
                 // ISO ordinal date (YYYY-DDD)
                 //
 
-                $hn_jd = Date_Calc::firstDayOfYear($regs[1]) + $regs[2] - 1;
+                $hn_jd = Calc::firstDayOfYear($regs[1]) + $regs[2] - 1;
                 list($hs_year, $hs_month, $hs_day) =
-                    explode(" ", Date_Calc::daysToDate($hn_jd, "%Y %m %d"));
+                    explode(" ", Calc::daysToDate($hn_jd, "%Y %m %d"));
 
             } else {
                 // ISO calendar date (YYYY-MM-DD)
@@ -797,9 +798,9 @@ class Date
                 $hs_month = $regs[3];
                 $hs_day   = $regs[4];
 
-                if (!Date_Calc::isValidDate($hs_day, $hs_month, $hs_year)) {
+                if (!Calc::isValidDate($hs_day, $hs_month, $hs_year)) {
                     return PEAR::raiseError("'" .
-                                            Date_Calc::dateFormat($hs_year,
+                                            Calc::dateFormat($hs_year,
                                                                   $hs_month,
                                                                   $hs_day,
                                                                   "%Y-%m-%d") .
@@ -810,9 +811,9 @@ class Date
 
             if (isset($regs[17])) {
                 if ($regs[17] == "Z") {
-                    $this->tz = new Date_TimeZone("UTC");
+                    $this->tz = new TimeZone("UTC");
                 } else {
-                    $this->tz = new Date_TimeZone("UTC" . $regs[17]);
+                    $this->tz = new TimeZone("UTC" . $regs[17]);
                 }
             }
 
@@ -923,7 +924,7 @@ class Date
                  $hn_hour,
                  $hn_minute,
                  $hn_secondraw) =
-                 Date_Calc::round($pn_precision,
+                 Calc::round($pn_precision,
                                   $this->day,
                                   $this->month,
                                   $this->year,
@@ -967,7 +968,7 @@ class Date
                  $hn_hour,
                  $hn_minute,
                  $hn_secondraw) =
-                 Date_Calc::round($pn_precision,
+                 Calc::round($pn_precision,
                                   $this->on_standardday,
                                   $this->on_standardmonth,
                                   $this->on_standardyear,
@@ -1007,7 +1008,7 @@ class Date
              $hn_hour,
              $hn_minute,
              $hn_secondraw) =
-             Date_Calc::round($pn_precision,
+             Calc::round($pn_precision,
                               $this->day,
                               $this->month,
                               $this->year,
@@ -1455,19 +1456,19 @@ class Date
                 $nextchar = substr($format, $strpos + 1, 1);
                 switch ($nextchar) {
                 case "a":
-                    $output .= Date_Calc::getWeekdayAbbrname($this->day,
+                    $output .= Calc::getWeekdayAbbrname($this->day,
                                    $this->month, $this->year,
                                    $this->getWeekdayAbbrnameLength);
                     break;
                 case "A":
-                    $output .= Date_Calc::getWeekdayFullname($this->day,
+                    $output .= Calc::getWeekdayFullname($this->day,
                                    $this->month, $this->year);
                     break;
                 case "b":
-                    $output .= Date_Calc::getMonthAbbrname($this->month);
+                    $output .= Calc::getMonthAbbrname($this->month);
                     break;
                 case "B":
-                    $output .= Date_Calc::getMonthFullname($this->month);
+                    $output .= Calc::getMonthFullname($this->month);
                     break;
                 case "C":
                     $output .= sprintf("%02d", intval($this->year / 100));
@@ -1483,13 +1484,13 @@ class Date
                     $output .= $this->day;
                     break;
                 case "E":
-                    $output .= Date_Calc::dateToDays($this->day, $this->month,
+                    $output .= Calc::dateToDays($this->day, $this->month,
                                    $this->year);
                     break;
                 case "g":
                     if (is_null($hn_isoyear))
                         list($hn_isoyear, $hn_isoweek, $hn_isoday) =
-                            Date_Calc::isoWeekDate($this->day,
+                            Calc::isoWeekDate($this->day,
                                                    $this->month,
                                                    $this->year);
 
@@ -1498,7 +1499,7 @@ class Date
                 case "G":
                     if (is_null($hn_isoyear))
                         list($hn_isoyear, $hn_isoweek, $hn_isoday) =
-                            Date_Calc::isoWeekDate($this->day,
+                            Calc::isoWeekDate($this->day,
                                                    $this->month,
                                                    $this->year);
 
@@ -1529,7 +1530,7 @@ class Date
                     break;
                 case "j":
                     $output .= sprintf("%03d",
-                                       Date_Calc::dayOfYear($this->day,
+                                       Calc::dayOfYear($this->day,
                                                             $this->month,
                                                             $this->year));
                     break;
@@ -1615,7 +1616,7 @@ class Date
                     $output      .= $hn_dayofweek == 0 ? 7 : $hn_dayofweek;
                     break;
                 case "U":
-                    $ha_week = Date_Calc::weekOfYear7th($this->day,
+                    $ha_week = Calc::weekOfYear7th($this->day,
                                                         $this->month,
                                                         $this->year,
                                                         0);
@@ -1624,7 +1625,7 @@ class Date
                 case "V":
                     if (is_null($hn_isoyear))
                         list($hn_isoyear, $hn_isoweek, $hn_isoday) =
-                            Date_Calc::isoWeekDate($this->day,
+                            Calc::isoWeekDate($this->day,
                                                    $this->month,
                                                    $this->year);
 
@@ -1634,7 +1635,7 @@ class Date
                     $output .= $this->getDayOfWeek();
                     break;
                 case "W":
-                    $ha_week = Date_Calc::weekOfYear7th($this->day,
+                    $ha_week = Calc::weekOfYear7th($this->day,
                                                         $this->month,
                                                         $this->year,
                                                         1);
@@ -2138,7 +2139,7 @@ class Date
      *   - <b>Y,YYY</b> - Year with thousands-separator in this position; five
      *                    possible separators
      *   - <b>Y.YYY</b>
-     *   - <b>Y·YYY</b> - N.B. space-dot (mid-dot, interpunct) is valid only in
+     *   - <b>Yï¿½YYY</b> - N.B. space-dot (mid-dot, interpunct) is valid only in
      *                    ISO 8859-1 (so take care when using UTF-8 in
      *                    particular)
      *   - <b>Y'YYY</b>
@@ -2190,7 +2191,7 @@ class Date
     {
         if (!preg_match('/^("([^"\\\\]|\\\\\\\\|\\\\")*"|(D{1,3}|S?C+|' .
                         'HH(12|24)?|I[DW]|S?IY*|J|M[IM]|Q|SS(SSS)?|S?TZ[HS]|' .
-                        'TZM|U|W[W147]?|S?Y{1,3}([,.·\' ]?YYY)*)(SP(TH)?|' .
+                        'TZM|U|W[W147]?|S?Y{1,3}([,.ï¿½\' ]?YYY)*)(SP(TH)?|' .
                         'TH(SP)?)?|AD|A\.D\.|AM|A\.M\.|BCE?|B\.C\.(E\.)?|CE|' .
                         'C\.E\.|DAY|DY|F(F*|[1-9][0-9]*)|MON(TH)?|NP|PM|' .
                         'P\.M\.|RM|TZ[CINOR]|S?YEAR|[^A-Z0-9"])*$/i',
@@ -2382,7 +2383,7 @@ class Date
                 $hb_lower = true;
             case "D":
                 if (strtoupper(substr($ps_format, $i, 3)) == "DAY") {
-                    $hs_day = Date_Calc::getWeekdayFullname($this->day,
+                    $hs_day = Calc::getWeekdayFullname($this->day,
                                                             $this->month,
                                                             $this->year);
 
@@ -2391,7 +2392,7 @@ class Date
                             // Set week-day padding variable:
                             //
                             $hn_weekdaypad = 0;
-                            foreach (Date_Calc::getWeekDays() as $hs_weekday)
+                            foreach (Calc::getWeekDays() as $hs_weekday)
                                 $hn_weekdaypad = max($hn_weekdaypad,
                                                      strlen($hs_weekday));
                         }
@@ -2408,7 +2409,7 @@ class Date
                              $hs_day);
                     $i   += 3;
                 } else if (strtoupper(substr($ps_format, $i, 2)) == "DY") {
-                    $hs_day = Date_Calc::getWeekdayAbbrname($this->day,
+                    $hs_day = Calc::getWeekdayAbbrname($this->day,
                                                             $this->month,
                                                             $this->year);
                     $ret   .= $hb_lower ?
@@ -2421,7 +2422,7 @@ class Date
                            strtoupper(substr($ps_format, $i + 2, 3)) != "DAY" &&
                            strtoupper(substr($ps_format, $i + 2, 2)) != "DY"
                            ) {
-                    $hn_day = Date_Calc::dayOfYear($this->day,
+                    $hn_day = Calc::dayOfYear($this->day,
                                                    $this->month,
                                                    $this->year);
                     $hs_numberformat = substr($ps_format, $i + 3, 4);
@@ -2455,7 +2456,7 @@ class Date
                 } else {
                     // Code 'D':
                     //
-                    $hn_day = Date_Calc::dayOfWeek($this->day,
+                    $hn_day = Calc::dayOfWeek($this->day,
                                                    $this->month,
                                                    $this->year);
                     $hs_numberformat = substr($ps_format, $i + 1, 4);
@@ -2565,7 +2566,7 @@ class Date
             case "I":
                 if (is_null($hn_isoyear))
                     list($hn_isoyear, $hn_isoweek, $hn_isoday) =
-                        Date_Calc::isoWeekDate($this->day,
+                        Calc::isoWeekDate($this->day,
                                                $this->month,
                                                $this->year);
 
@@ -2623,7 +2624,7 @@ class Date
                 break;
             case "j":
             case "J":
-                $hn_jd = Date_Calc::dateToDays($this->day,
+                $hn_jd = Calc::dateToDays($this->day,
                                                $this->month,
                                                $this->year);
                 $hs_numberformat = substr($ps_format, $i + 1, 4);
@@ -2675,14 +2676,14 @@ class Date
                     $ret .= $hs_month;
                     $i   += 2 + strlen($hs_numberformat);
                 } else if (strtoupper(substr($ps_format, $i, 5)) == "MONTH") {
-                    $hs_month = Date_Calc::getMonthFullname($this->month);
+                    $hs_month = Calc::getMonthFullname($this->month);
 
                     if (!$hb_nopad) {
                         if (is_null($hn_monthpad)) {
                             // Set month padding variable:
                             //
                             $hn_monthpad = 0;
-                            foreach (Date_Calc::getMonthNames() as $hs_monthofyear)
+                            foreach (Calc::getMonthNames() as $hs_monthofyear)
                                 $hn_monthpad = max($hn_monthpad,
                                                    strlen($hs_monthofyear));
                         }
@@ -2699,7 +2700,7 @@ class Date
                              $hs_month);
                     $i   += 5;
                 } else if (strtoupper(substr($ps_format, $i, 3)) == "MON") {
-                    $hs_month = Date_Calc::getMonthAbbrname($this->month);
+                    $hs_month = Calc::getMonthAbbrname($this->month);
                     $ret     .= $hb_lower ?
                                 strtolower($hs_month) :
                                 (substr($ps_format, $i + 1, 1) == "O" ?
@@ -2741,7 +2742,7 @@ class Date
                 // it is possible that a different implementation might be
                 // desired, so pass these parameters anyway:
                 //
-                $hn_quarter = Date_Calc::quarterOfYear($this->day,
+                $hn_quarter = Calc::quarterOfYear($this->day,
                                                        $this->month,
                                                        $this->year);
                 $hs_numberformat = substr($ps_format, $i + 1, 4);
@@ -2817,7 +2818,7 @@ class Date
                     if ($this->ob_invalidtime)
                         return $this->_getErrorInvalidTime();
                     $hs_numberformat = substr($ps_format, $i + 5, 4);
-                    $hn_second = Date_Calc::secondsPastMidnight($this->hour,
+                    $hn_second = Calc::secondsPastMidnight($this->hour,
                                                                 $this->minute,
                                                                 $this->second);
                     $hs_second = $this->_formatNumber($hn_second,
@@ -2995,7 +2996,7 @@ class Date
                 // Check for 'WW' before 'W':
                 //
                 if (strtoupper(substr($ps_format, $i, 2)) == "WW") {
-                    $hn_week = Date_Calc::weekOfYearAbsolute($this->day,
+                    $hn_week = Calc::weekOfYearAbsolute($this->day,
                                                              $this->month,
                                                              $this->year);
                     $hs_numberformat = substr($ps_format, $i + 2, 4);
@@ -3011,7 +3012,7 @@ class Date
                     $ret .= $hs_week;
                     $i   += 2 + strlen($hs_numberformat);
                 } else if (strtoupper(substr($ps_format, $i, 2)) == "W1") {
-                    $hn_week = Date_Calc::weekOfYear1st($this->day,
+                    $hn_week = Calc::weekOfYear1st($this->day,
                                                         $this->month,
                                                         $this->year);
                     $hs_numberformat = substr($ps_format, $i + 2, 4);
@@ -3027,7 +3028,7 @@ class Date
                     $ret .= $hs_week;
                     $i   += 2 + strlen($hs_numberformat);
                 } else if (strtoupper(substr($ps_format, $i, 2)) == "W4") {
-                    $ha_week = Date_Calc::weekOfYear4th($this->day,
+                    $ha_week = Calc::weekOfYear4th($this->day,
                                                         $this->month,
                                                         $this->year);
                     $hn_week = $ha_week[1];
@@ -3044,7 +3045,7 @@ class Date
                     $ret .= $hs_week;
                     $i   += 2 + strlen($hs_numberformat);
                 } else if (strtoupper(substr($ps_format, $i, 2)) == "W7") {
-                    $ha_week = Date_Calc::weekOfYear7th($this->day,
+                    $ha_week = Calc::weekOfYear7th($this->day,
                                                         $this->month,
                                                         $this->year);
                     $hn_week = $ha_week[1];
@@ -3063,7 +3064,7 @@ class Date
                 } else {
                     // Code 'W':
                     //
-                    $hn_week = Date_Calc::weekOfMonthAbsolute($this->day,
+                    $hn_week = Calc::weekOfMonthAbsolute($this->day,
                                                               $this->month,
                                                               $this->year);
                     $hs_numberformat = substr($ps_format, $i + 1, 4);
@@ -3163,7 +3164,7 @@ class Date
                     $hs_thousandsep  = null;
                     $hn_thousandseps = 0;
                     if ($hn_codelen <= 3) {
-                        while (preg_match('/([,.·\' ])YYY/i',
+                        while (preg_match('/([,.ï¿½\' ])YYY/i',
                                           substr($ps_format,
                                                  $i + $hn_codelen,
                                                  4),
@@ -3480,7 +3481,7 @@ class Date
 
         // Input Unix time as UTC:
         //
-        $this->tz = new Date_TimeZone("UTC");
+        $this->tz = new TimeZone("UTC");
         $this->setDate(gmdate("Y-m-d H:i:s", $pn_timestamp));
 
         // Convert back to correct time zone:
@@ -3566,13 +3567,13 @@ class Date
     {
         if (function_exists('version_compare') &&
             version_compare(phpversion(), "5.1.0", ">=") &&
-            (Date_TimeZone::isValidID($hs_id = date_default_timezone_get()) ||
-             Date_TimeZone::isValidID($hs_id = date("e"))
+            (TimeZone::isValidID($hs_id = date_default_timezone_get()) ||
+             TimeZone::isValidID($hs_id = date("e"))
              )
             ) {
-            $this->tz = new Date_TimeZone($hs_id);
+            $this->tz = new TimeZone($hs_id);
         } else {
-            $this->tz = Date_TimeZone::getDefault();
+            $this->tz = TimeZone::getDefault();
         }
     }
 
@@ -3682,8 +3683,8 @@ class Date
 
         if (is_null($ps_id)) {
             $this->_setTZToDefault();
-        } else if (Date_TimeZone::isValidID($ps_id)) {
-            $this->tz = new Date_TimeZone($ps_id);
+        } else if (TimeZone::isValidID($ps_id)) {
+            $this->tz = new TimeZone($ps_id);
         } else {
             return PEAR::raiseError("Invalid time zone ID '$ps_id'",
                                     DATE_ERROR_INVALIDTIMEZONE);
@@ -3779,7 +3780,7 @@ class Date
      *
      * @return   int        the corrected offset to UTC in milliseconds
      * @access   public
-     * @see      Date_TimeZone::getOffset()
+     * @see      TimeZone::getOffset()
      * @since    Method available since Release 1.5.0
      */
     function getTZOffset()
@@ -3805,7 +3806,7 @@ class Date
      *
      * @return   boolean    true if DST is in effect for this date
      * @access   public
-     * @see      Date_TimeZone::hasDaylightTime(), Date_TimeZone::inDaylightTime()
+     * @see      TimeZone::hasDaylightTime(), TimeZone::inDaylightTime()
      */
     function inDaylightTime($pb_repeatedhourdefault = false)
     {
@@ -3855,7 +3856,7 @@ class Date
             return $this->_getErrorInvalidTime();
 
         $hn_rawoffset = $tz->getRawOffset() - $this->tz->getRawOffset();
-        $this->tz     = new Date_TimeZone($tz->getID());
+        $this->tz     = new TimeZone($tz->getID());
 
         list($hn_standardyear,
              $hn_standardmonth,
@@ -3900,7 +3901,7 @@ class Date
         if ($this->ob_invalidtime)
             return $this->_getErrorInvalidTime();
 
-        $res = $this->convertTZ(new Date_TimeZone("UTC"));
+        $res = $this->convertTZ(new TimeZone("UTC"));
         if (PEAR::isError($res))
             return $res;
     }
@@ -3927,12 +3928,12 @@ class Date
      */
     function convertTZByID($ps_id)
     {
-        if (!Date_TimeZone::isValidID($ps_id)) {
+        if (!TimeZone::isValidID($ps_id)) {
             return PEAR::raiseError("Invalid time zone ID '$ps_id'",
                                     DATE_ERROR_INVALIDTIMEZONE);
         }
 
-        $res = $this->convertTZ(new Date_TimeZone($ps_id));
+        $res = $this->convertTZ(new TimeZone($ps_id));
 
         if (PEAR::isError($res))
             return $res;
@@ -3998,7 +3999,7 @@ class Date
     function addYears($pn_years)
     {
         list($hs_year, $hs_month, $hs_day) =
-            explode(" ", Date_Calc::addYears($pn_years,
+            explode(" ", Calc::addYears($pn_years,
                                              $this->day,
                                              $this->month,
                                              $this->year,
@@ -4031,7 +4032,7 @@ class Date
     function addMonths($pn_months)
     {
         list($hs_year, $hs_month, $hs_day) =
-            explode(" ", Date_Calc::addMonths($pn_months,
+            explode(" ", Calc::addMonths($pn_months,
                                               $this->day,
                                               $this->month,
                                               $this->year,
@@ -4063,7 +4064,7 @@ class Date
     function addDays($pn_days)
     {
         list($hs_year, $hs_month, $hs_day) =
-            explode(" ", Date_Calc::addDays($pn_days,
+            explode(" ", Calc::addDays($pn_days,
                                             $this->day,
                                             $this->month,
                                             $this->year,
@@ -4101,7 +4102,7 @@ class Date
              $hn_standardmonth,
              $hn_standardday,
              $hn_standardhour) =
-             Date_Calc::addHours($pn_hours,
+             Calc::addHours($pn_hours,
                                  $this->on_standardday,
                                  $this->on_standardmonth,
                                  $this->on_standardyear,
@@ -4141,7 +4142,7 @@ class Date
              $hn_standardday,
              $hn_standardhour,
              $hn_standardminute) =
-             Date_Calc::addMinutes($pn_minutes,
+             Calc::addMinutes($pn_minutes,
                                    $this->on_standardday,
                                    $this->on_standardmonth,
                                    $this->on_standardyear,
@@ -4204,7 +4205,7 @@ class Date
                  $hn_standardhour,
                  $hn_standardminute,
                  $hn_secondraw) =
-                Date_Calc::addSeconds($sec,
+                Calc::addSeconds($sec,
                                       $hn_standardday,
                                       $hn_standardmonth,
                                       $hn_standardyear,
@@ -4248,7 +4249,7 @@ class Date
                  $hn_standardhour,
                  $hn_standardminute,
                  $hn_secondraw) =
-                Date_Calc::addSeconds($sec,
+                Calc::addSeconds($sec,
                                       $this->on_standardday,
                                       $this->on_standardmonth,
                                       $this->on_standardyear,
@@ -4361,7 +4362,7 @@ class Date
      *
      * @return   void
      * @access   public
-     * @see      Date_Span
+     * @see      Span
      */
     function addSpan($span)
     {
@@ -4393,7 +4394,7 @@ class Date
 
         list($hn_standardyear, $hn_standardmonth, $hn_standardday) =
             explode(" ",
-                    Date_Calc::addDays($hn_days,
+                    Calc::addDays($hn_days,
                                        $this->on_standardday,
                                        $this->on_standardmonth,
                                        $this->on_standardyear,
@@ -4425,7 +4426,7 @@ class Date
      *
      * @return   void
      * @access   public
-     * @see      Date_Span
+     * @see      Span
      */
     function subtractSpan($span)
     {
@@ -4457,7 +4458,7 @@ class Date
 
         list($hn_standardyear, $hn_standardmonth, $hn_standardday) =
             explode(" ",
-                    Date_Calc::addDays($hn_days,
+                    Calc::addDays($hn_days,
                                        $this->on_standardday,
                                        $this->on_standardmonth,
                                        $this->on_standardyear,
@@ -4506,10 +4507,10 @@ class Date
     function dateDiff($po_date, $pb_ignoretime = false)
     {
         if ($pb_ignoretime || $this->ob_invalidtime) {
-            return Date_Calc::dateToDays($this->day,
+            return Calc::dateToDays($this->day,
                                          $this->month,
                                          $this->year) -
-                   Date_Calc::dateToDays($po_date->getDay(),
+                   Calc::dateToDays($po_date->getDay(),
                                          $po_date->getMonth(),
                                          $po_date->getYear());
         }
@@ -4520,10 +4521,10 @@ class Date
                 return $hn_secondscompare;
             }
 
-            return Date_Calc::dateToDays($this->day,
+            return Calc::dateToDays($this->day,
                                          $this->month,
                                          $this->year) -
-                   Date_Calc::dateToDays($po_date->getDay(),
+                   Calc::dateToDays($po_date->getDay(),
                                          $po_date->getMonth(),
                                          $po_date->getYear());
         }
@@ -4532,10 +4533,10 @@ class Date
 
         // If time parts are equal, return int, else return float:
         //
-        return Date_Calc::dateToDays($this->on_standardday,
+        return Calc::dateToDays($this->on_standardday,
                                      $this->on_standardmonth,
                                      $this->on_standardyear) -
-               Date_Calc::dateToDays($po_date->getStandardDay(),
+               Calc::dateToDays($po_date->getStandardDay(),
                                      $po_date->getStandardMonth(),
                                      $po_date->getStandardYear()) +
                ($hn_seconds == $hn_secondscompare ? 0 :
@@ -4568,7 +4569,7 @@ class Date
      * @return   bool       true if the time zones are equivalent
      * @access   public
      * @static
-     * @see      Date_TimeZone::isEquivalent()
+     * @see      TimeZone::isEquivalent()
      * @since    Method available since Release 1.5.0
      */
     function inEquivalentTimeZones($po_date1, $po_date2)
@@ -4615,10 +4616,10 @@ class Date
             }
         }
 
-        $days1 = Date_Calc::dateToDays($d1->getDay(),
+        $days1 = Calc::dateToDays($d1->getDay(),
                                        $d1->getMonth(),
                                        $d1->getYear());
-        $days2 = Date_Calc::dateToDays($d2->getDay(),
+        $days2 = Calc::dateToDays($d2->getDay(),
                                        $d2->getMonth(),
                                        $d2->getYear());
         if ($days1 < $days2)
@@ -4763,7 +4764,7 @@ class Date
      */
     function isLeapYear()
     {
-        return Date_Calc::isLeapYear($this->year);
+        return Calc::isLeapYear($this->year);
     }
 
 
@@ -4794,7 +4795,7 @@ class Date
      */
     function getJulianDate()
     {
-        return Date_Calc::julianDate($this->day, $this->month, $this->year);
+        return Calc::julianDate($this->day, $this->month, $this->year);
     }
 
 
@@ -4810,7 +4811,7 @@ class Date
      */
     function getDayOfYear()
     {
-        return Date_Calc::dayOfYear($this->day, $this->month, $this->year);
+        return Calc::dayOfYear($this->day, $this->month, $this->year);
     }
 
 
@@ -4825,7 +4826,7 @@ class Date
      */
     function getDayOfWeek()
     {
-        return Date_Calc::dayOfWeek($this->day, $this->month, $this->year);
+        return Calc::dayOfWeek($this->day, $this->month, $this->year);
     }
 
 
@@ -4840,7 +4841,7 @@ class Date
      */
     function getWeekOfYear()
     {
-        return Date_Calc::weekOfYear($this->day, $this->month, $this->year);
+        return Calc::weekOfYear($this->day, $this->month, $this->year);
     }
 
 
@@ -4855,7 +4856,7 @@ class Date
      */
     function getQuarterOfYear()
     {
-        return Date_Calc::quarterOfYear($this->day, $this->month, $this->year);
+        return Calc::quarterOfYear($this->day, $this->month, $this->year);
     }
 
 
@@ -4870,7 +4871,7 @@ class Date
      */
     function getDaysInMonth()
     {
-        return Date_Calc::daysInMonth($this->month, $this->year);
+        return Calc::daysInMonth($this->month, $this->year);
     }
 
 
@@ -4885,7 +4886,7 @@ class Date
      */
     function getWeeksInMonth()
     {
-        return Date_Calc::weeksInMonth($this->month, $this->year);
+        return Calc::weeksInMonth($this->month, $this->year);
     }
 
 
@@ -4904,12 +4905,12 @@ class Date
     function getDayName($abbr = false, $length = 3)
     {
         if ($abbr) {
-            return Date_Calc::getWeekdayAbbrname($this->day,
+            return Calc::getWeekdayAbbrname($this->day,
                                                  $this->month,
                                                  $this->year,
                                                  $length);
         } else {
-            return Date_Calc::getWeekdayFullname($this->day,
+            return Calc::getWeekdayFullname($this->day,
                                                  $this->month,
                                                  $this->year);
         }
@@ -4930,9 +4931,9 @@ class Date
     function getMonthName($abbr = false)
     {
         if ($abbr) {
-            return Date_Calc::getMonthAbbrname($this->month);
+            return Calc::getMonthAbbrname($this->month);
         } else {
-            return Date_Calc::getMonthFullname($this->month);
+            return Calc::getMonthFullname($this->month);
         }
     }
 
@@ -4990,7 +4991,7 @@ class Date
     {
         $ret = new Date($this);
         list($hs_year, $hs_month, $hs_day) =
-            explode(" ", Date_Calc::nextWeekday($this->day,
+            explode(" ", Calc::nextWeekday($this->day,
                                                 $this->month,
                                                 $this->year,
                                                 "%Y %m %d"));
@@ -5014,7 +5015,7 @@ class Date
     {
         $ret = new Date($this);
         list($hs_year, $hs_month, $hs_day) =
-            explode(" ", Date_Calc::prevWeekday($this->day,
+            explode(" ", Calc::prevWeekday($this->day,
                                                 $this->month,
                                                 $this->year,
                                                 "%Y %m %d"));
@@ -5086,7 +5087,7 @@ class Date
                                         $this->minute,
                                         $this->second) .
                                 "' specified for date '" .
-                                Date_Calc::dateFormat($this->day,
+                                Calc::dateFormat($this->day,
                                                       $this->month,
                                                       $this->year,
                                                       "%Y-%m-%d") .
@@ -5127,11 +5128,11 @@ class Date
                                   $this->on_standardminute,
                                   $this->on_standardsecond,
                                   $this->on_standardpartsecond);
-            return Date_Calc::secondsPastMidnight($hn_hour,
+            return Calc::secondsPastMidnight($hn_hour,
                                                   $hn_minute,
                                                   $hn_second +
                                                       $hn_partsecond) <
-                   Date_Calc::getSecondsInDay($hn_day, $hn_month, $hn_year);
+                   Calc::getSecondsInDay($hn_day, $hn_month, $hn_year);
         } else {
             return $this->getStandardSecondsPastMidnight() < 86400;
         }
@@ -5252,7 +5253,7 @@ class Date
         if ($this->ob_invalidtime)
             return $this->_getErrorInvalidTime();
 
-        return Date_Calc::secondsPastMidnight($this->hour,
+        return Calc::secondsPastMidnight($this->hour,
                                               $this->minute,
                                               $this->second) +
                $this->partsecond;
@@ -5408,7 +5409,7 @@ class Date
         if ($this->ob_invalidtime)
             return $this->_getErrorInvalidTime();
 
-        return Date_Calc::secondsPastMidnight($this->on_standardhour,
+        return Calc::secondsPastMidnight($this->on_standardhour,
                                               $this->on_standardminute,
                                               $this->on_standardsecond) +
                $this->on_standardpartsecond;
@@ -5479,7 +5480,7 @@ class Date
                  $hn_month,
                  $hn_day,
                  $hn_hour) =
-                 Date_Calc::addHours($pn_offset / 3600000,
+                 Calc::addHours($pn_offset / 3600000,
                                      $pn_day,
                                      $pn_month,
                                      $pn_year,
@@ -5494,7 +5495,7 @@ class Date
                  $hn_day,
                  $hn_hour,
                  $hn_minute) =
-                 Date_Calc::addMinutes($pn_offset / 60000,
+                 Calc::addMinutes($pn_offset / 60000,
                                        $pn_day,
                                        $pn_month,
                                        $pn_year,
@@ -5510,7 +5511,7 @@ class Date
                  $hn_hour,
                  $hn_minute,
                  $hn_secondraw) =
-                 Date_Calc::addSeconds($pn_offset / 1000,
+                 Calc::addSeconds($pn_offset / 1000,
                                        $pn_day,
                                        $pn_month,
                                        $pn_year,
@@ -5588,7 +5589,7 @@ class Date
 
         $hb_insummertime =
             $this->tz->inDaylightTime(array($pn_day,
-                $pn_month, $pn_year, Date_Calc::secondsPastMidnight($pn_hour,
+                $pn_month, $pn_year, Calc::secondsPastMidnight($pn_hour,
                 $pn_minute, $pn_second) + $pn_partsecond),
                 $pb_repeatedhourdefault);
         if (PEAR::isError($hb_insummertime)) {
@@ -5735,7 +5736,7 @@ class Date
         $this->ob_invalidtime = !$this->_secondsInDayIsValid();
 
         if ($this->tz->inDaylightTimeStandard(array($pn_day, $pn_month,
-            $pn_year, Date_Calc::secondsPastMidnight($pn_hour, $pn_minute,
+            $pn_year, Calc::secondsPastMidnight($pn_hour, $pn_minute,
             $pn_second) + $pn_partsecond))) {
 
             // Calculate local time:
@@ -5789,9 +5790,9 @@ class Date
      */
     function setYear($y, $pb_validate = DATE_VALIDATE_DATE_BY_DEFAULT)
     {
-        if ($pb_validate && !Date_Calc::isValidDate($this->day, $this->month, $y)) {
+        if ($pb_validate && !Calc::isValidDate($this->day, $this->month, $y)) {
             return PEAR::raiseError("'" .
-                                    Date_Calc::dateFormat($this->day,
+                                    Calc::dateFormat($this->day,
                                                           $this->month,
                                                           $y,
                                                           "%Y-%m-%d") .
@@ -5829,9 +5830,9 @@ class Date
      */
     function setMonth($m, $pb_validate = DATE_VALIDATE_DATE_BY_DEFAULT)
     {
-        if ($pb_validate && !Date_Calc::isValidDate($this->day, $m, $this->year)) {
+        if ($pb_validate && !Calc::isValidDate($this->day, $m, $this->year)) {
             return PEAR::raiseError("'" .
-                                    Date_Calc::dateFormat($this->day,
+                                    Calc::dateFormat($this->day,
                                                           $m,
                                                           $this->year,
                                                           "%Y-%m-%d") .
@@ -5869,9 +5870,9 @@ class Date
      */
     function setDay($d, $pb_validate = DATE_VALIDATE_DATE_BY_DEFAULT)
     {
-        if ($pb_validate && !Date_Calc::isValidDate($d, $this->month, $this->year)) {
+        if ($pb_validate && !Calc::isValidDate($d, $this->month, $this->year)) {
             return PEAR::raiseError("'" .
-                                    Date_Calc::dateFormat($d,
+                                    Calc::dateFormat($d,
                                                           $this->month,
                                                           $this->year,
                                                           "%Y-%m-%d") .
@@ -5911,9 +5912,9 @@ class Date
      */
     function setDayMonthYear($d, $m, $y)
     {
-        if (!Date_Calc::isValidDate($d, $m, $y)) {
+        if (!Calc::isValidDate($d, $m, $y)) {
             return PEAR::raiseError("'" .
-                                    Date_Calc::dateFormat($d,
+                                    Calc::dateFormat($d,
                                                           $m,
                                                           $y,
                                                           "%Y-%m-%d") .
@@ -6145,9 +6146,9 @@ class Date
                          $pm_second,
                          $pb_repeatedhourdefault = false)
     {
-        if (!Date_Calc::isValidDate($d, $m, $y)) {
+        if (!Calc::isValidDate($d, $m, $y)) {
             return PEAR::raiseError("'" .
-                                    Date_Calc::dateFormat($d,
+                                    Calc::dateFormat($d,
                                                           $m,
                                                           $y,
                                                           "%Y-%m-%d") .
