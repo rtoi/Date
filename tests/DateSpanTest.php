@@ -21,7 +21,6 @@
 
 require_once 'Date.php';
 require_once 'Date/Span.php';
-require_once 'PHPUnit/Autoload.php';
 
 /**
  * Test case for Date_Span
