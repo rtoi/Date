@@ -20,10 +20,12 @@
 //
 namespace Pear\Date\Test;
 
+use Pear\Date\Date;
+use Pear\Date\Span;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Test case for Date_Span
+ * Test case for Span
  *
  * @package Date
  * @author Leandro Lucarella <llucax@php.net>
@@ -33,7 +35,7 @@ class Date_SpanTest extends PHPUnit_Framework_TestCase {
     var $time;
 
     function setUp() {
-        $this->time = new Date_Span(97531);
+        $this->time = new Span(97531);
     }
 
     function tearDown() {
@@ -107,7 +109,7 @@ class Date_SpanTest extends PHPUnit_Framework_TestCase {
     }
 
     function testCopy() {
-        $time = new Date_Span();
+        $time = new Span();
         $time->copy($this->time);
         $this->assertEquals(
             sprintf('%d:%d:%d:%d', $this->time->day, $this->time->hour,
@@ -150,14 +152,14 @@ class Date_SpanTest extends PHPUnit_Framework_TestCase {
     }
 
     function testAdd() {
-        $this->time->add(new Date_Span(6000));
+        $this->time->add(new Span(6000));
         $result = $this->time->toSeconds();
         $expected = 103531;
         $this->assertEquals($expected, $result);
     }
 
     function testSubtract() {
-        $this->time->subtract(new Date_Span(6000));
+        $this->time->subtract(new Span(6000));
         $result = $this->time->toSeconds();
         $expected = 91531;
         $this->assertEquals($expected, $result);
