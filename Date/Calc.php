@@ -4437,4 +4437,3 @@ class Calc
  * c-hanging-comment-ender-p: nil
  * End:
  */
-?>
