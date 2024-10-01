@@ -831,7 +831,7 @@ class Date
                                 $pb_repeatedhourdefault);
 
         } else {
-            return PEAR::raiseError("Date '$date' not in ISO 8601 format",
+            return \PEAR::raiseError("Date '$date' not in ISO 8601 format",
                                     DATE_ERROR_INVALIDDATEFORMAT);
         }
     }
@@ -5592,7 +5592,7 @@ class Date
                 $pn_month, $pn_year, Calc::secondsPastMidnight($pn_hour,
                 $pn_minute, $pn_second) + $pn_partsecond),
                 $pb_repeatedhourdefault);
-        if (PEAR::isError($hb_insummertime)) {
+        if (\PEAR::isError($hb_insummertime)) {
             if ($hb_insummertime->getCode() != DATE_ERROR_INVALIDTIME) {
                 return $hb_insummertime;
             } else if ($pb_correctinvalidtime) {

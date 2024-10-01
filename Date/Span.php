@@ -329,9 +329,9 @@ class Span
             $pm   = 'am';
             $day  = $hour = $minute = $second = 0;
             for ($i = 0; $i < strlen($format); $i++) {
-                $char = $format{$i};
+                $char = $format[$i];
                 if ($char == '%') {
-                    $nextchar = $format{++$i};
+                    $nextchar = $format[++$i];
                     switch ($nextchar) {
                     case 'c':
                         $str .= '%d, %d:%d:%d';
@@ -700,9 +700,9 @@ class Span
         }
         $output = '';
         for ($i = 0; $i < strlen($format); $i++) {
-            $char = $format{$i};
+            $char = $format[$i];
             if ($char == '%') {
-                $nextchar = $format{++$i};
+                $nextchar = $format[++$i];
                 switch ($nextchar) {
                 case 'C':
                     $output .= sprintf('%d, %02d:%02d:%02d',
